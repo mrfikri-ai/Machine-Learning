@@ -1,7 +1,7 @@
 def fuzzy_cmeans(points, k, max_iteration = 100):
         from scipy.spatial.distance import cdist
         
-        # TODO: Mesti cari tahu m ini apa
+        # TODO: set the parameter
         m = 3
 
         # Define the variable of membership
