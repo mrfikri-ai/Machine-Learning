@@ -10,3 +10,7 @@ Currently, I just created four clustering algorithms such as K-Means, K-Medians,
 K-Means
 
 K-Medians
+
+K-Medoids
+
+Fuzzy-c-means
