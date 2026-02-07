@@ -1,7 +1,5 @@
 import numpy as np
-import matplotlib.pyplot as plt
-from sklearn.datasets import make_blobs
-from scipy.spatial.distance import cdist
+import scipy.spatial.distance import cdist
 
 def k_center_clustering(X, k):
     n_samples, n_features = X.shape
