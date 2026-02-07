@@ -1,9 +1,7 @@
-def fuzzy_cmeans(points, k, max_iteration = 100):
-        from scipy.spatial.distance import cdist
-        
-        # TODO: set the parameter
-        m = 3
+import numpy as np
+import scipy.spatial.distance import cdist
 
+def fuzzy_cmeans(points, k, max_iteration = 100, m=3):        
         # Define the variable of membership
         U = np.random.rand(points.shape[0],k)
         U /= np.sum(U, axis=1)[:,np.newaxis]
@@ -25,16 +23,35 @@ def fuzzy_cmeans(points, k, max_iteration = 100):
             return U_new
 
         # Make the cluster has a better resolution
-        for iteration in range (max_iteration):
+        for _ in range (max_iteration):
             centroids = calculate_centroid(points, k, U , m)
             U_new = calculate_membership(points, centroids, k , m) 
-      
-            if np.linalg.norm (U_new - U) <= 0.00001:
+            if np.linalg.norm (U_new - U) <= 1e-5:
                 break
-            
             U = U_new
 
         labels = np.argmax(U_new, axis=1)
         dict_dividedPoints = { i: points[labels == i] for i in range(k) }
 
         return centroids, dict_dividedPoints
+
+class FuzzyCMeans:
+        def __init__(self, n_clusters, max_iter = 100, m=3):
+                self.n_clusters = n_clusters
+                self.max_iter = max_iter
+                self.m = m
+                self.centroids_ = None
+                self.labels_ = None
+
+        def fit(self, X):
+                self.centroids_, _ = fuzzy_cmeans(X, self.n_clusters, self.max_iter, self.m
+                self.labels_ = self.predict(X)
+                return self
+
+        def predict(self, X):
+                distance = np.linalg.norm(X[:, None, :] - self.centroids_[None, :, :], axis=2)
+                return np.argmin(distances, axis=1)
+
+        def fit_predict(self, X):
+                self.fit(X)
+        return self.labels_
